@@ -13,12 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 //middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://ai-chat-app-two-chi.vercel.app"
-  ],
-  methods: ["GET", "POST"],
-  credentials: true
+  origin: true
 }));
 app.use(express.json());
 
