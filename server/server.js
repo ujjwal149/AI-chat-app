@@ -9,9 +9,16 @@ import chatRoutes from "./routes/chatRoutes.js"
 
 const app = express();
 
+const PORT = process.env.PORT || 5000;
+
 //middleware
 app.use(cors({
-    origin: "http://localhost:5173"
+  origin: [
+    "http://localhost:5173",
+    "https://ai-chat-app-two-chi.vercel.app"
+  ],
+  methods: ["GET", "POST"],
+  credentials: true
 }));
 app.use(express.json());
 
@@ -23,6 +30,6 @@ app.get("/",(req,res) => {
 })
 
 
-app.listen(process.env.PORT,() => {
-    console.log(`Server is running on port ${process.env.PORT}..`)
+app.listen(PORT,() => {
+    console.log(`Server is running on port ${PORT}..`)
 })
