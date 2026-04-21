@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
+
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -41,20 +42,25 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-[#242424] text-white">
+    <div className="flex h-screen bg-[#242424]  text-white">
  
       {/* Sidebar */}
-      <div className="w-1/5 bg-[#171717] border-r border-gray-700 flex flex-col p-4">
-        <h2 className="text-lg font-semibold mb-4">Menu</h2>
+      <div className="w-1/5 bg-[#171717] border-r border-gray-700 flex flex-col items-center  p-3">
+        <img 
+          src="/chatAI-logo.png" 
+          alt="ChatAI Logo" 
+          className="w-21 h-21 object-contain"
+        />
+        
 
         <button
-          className="bg-[#ffffff] text-gray-900 hover:bg-[#d9d9d9] p-2 rounded-sm mb-3 cursor-pointer"
+          className="bg-[#ffffff] text-gray-900 hover:bg-[#d9d9d9] p-2 w-full mt-7 rounded-3xl mb-3 cursor-pointer"
           onClick={() => setMessages([])}
         >
-          New Chat
+          New Chat +
         </button>
 
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-gray-400 ">
           Chat history coming soon...
         </div>
       </div>
