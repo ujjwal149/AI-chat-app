@@ -19,7 +19,7 @@ export default function Chat() {
 
     try {
       const res = await axios.post(
-        "https://ai-chat-app-hsdn.onrender.com/api/chat",
+        `${import.meta.env.VITE_API_URL}/api/chat`,
         { message }
       );
 
