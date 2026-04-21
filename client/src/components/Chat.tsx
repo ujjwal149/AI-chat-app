@@ -2,9 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 
 type Message = {
-    role:String,
-    content:String
-}
+  role: "user" | "assistant";
+  content: string;
+};
+
 export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -12,7 +13,7 @@ export default function Chat() {
   const sendMessage = async () => {
     if (!message.trim()) return;
 
-    const userMessage = { role: "user", content: message };
+    const userMessage: Message = { role: "user", content: message };
     setMessages(prev => [...prev, userMessage]);
 
     try {
@@ -20,7 +21,7 @@ export default function Chat() {
         message,
       });
 
-      const aiMessage = {
+      const aiMessage: Message = {
         role: "assistant",
         content: res.data.reply,
       };
@@ -32,53 +33,82 @@ export default function Chat() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      
-      {/* Header */}
-      <div className="bg-blue-600 text-white p-4 text-center text-xl font-semibold">
-        AI Chat
-      </div>
-
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`max-w-xl px-4 py-2 rounded-lg ${
-              msg.role === "user"
-                ? "bg-blue-500 text-white ml-auto"
-                : "bg-white text-black"
-            }`}
-          >
-            {msg.content}
-          </div>
-        ))}
-      </div>
-
-      {/* Input Area */}
-      <div className="p-4 bg-white border-t flex gap-2">
-        <input
-          type="text"
-          className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if(e.key == "Enter"){
-                sendMessage();
-            }
-          }}
-          placeholder="Type your message..."
-        />
+    <div className="flex h-screen bg-[#242424] text-white">
+ 
+      {/* Sidebar */}
+      <div className="w-1/5 bg-[#171717] border-r border-gray-700 flex flex-col p-4">
+        <h2 className="text-lg font-semibold mb-4">Menu</h2>
 
         <button
-          
-          onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-[#ffffff] text-gray-900 hover:bg-[#d9d9d9] p-2 rounded-sm mb-3 cursor-pointer"
+          onClick={() => setMessages([])}
         >
-          Send
+          New Chat
         </button>
+
+        <div className="text-sm text-gray-400">
+          Chat history coming soon...
+        </div>
+      </div>
+
+      {/* Chat Section */}
+      <div className="flex flex-col w-full ">
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto flex justify-center">
+          <div className="w-full max-w-2xl px-4 py-6 space-y-4">
+        
+            {messages.map((msg, index) => (
+              <div key={index}>
+                
+                {msg.role === "assistant" ? (
+                  // AI message 
+                  <div className="w-full px-4 py-3 rounded-lg bg-[#171717] text-gray-100 leading-relaxed whitespace-pre-wrap wrap-break-wordbreak-words">
+                    {msg.content}
+                  </div>
+                ) : (
+                  // User message 
+                  <div className="flex justify-end">
+                    <div className="max-w-xs px-4 py-2 rounded-lg bg-[#d9d9d9] text-black">
+                      {msg.content}
+                    </div>
+                  </div>
+                )}
+        
+              </div>
+            ))}
+        
+          </div>
+        </div>
+
+        {/* Input */}
+        <div className="p-4 border-t border-gray-700  flex justify-end-safe gap-2">
+          <input
+            type="text"
+            className="flex-1/3 justify-center bg-gray-800   border border-gray-600 rounded-3xl px-4 py-2 focus:outline-none"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your message..."
+          />
+
+          <button
+            onClick={sendMessage}
+            className="bg-white text-black px-4 py-2 rounded-4xl hover:bg-[#d9d9d9] cursor-pointer"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
+   
