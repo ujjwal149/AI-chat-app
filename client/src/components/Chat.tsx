@@ -17,9 +17,10 @@ export default function Chat() {
     setMessages(prev => [...prev, userMessage]);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/chat", {
-        message,
-      });
+      const res = await axios.post(
+        "https://ai-chat-app-hsdn.onrender.com/api/chat",
+        { message }
+      );
 
       const aiMessage: Message = {
         role: "assistant",
