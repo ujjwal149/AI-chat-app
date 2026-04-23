@@ -90,7 +90,7 @@ export default function Chat() {
           <div className="flex-1 bg-[#1E1F22] rounded-xl border border-[#25262B] flex flex-col overflow-hidden">
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto flex justify-center">
+            <div className="flex-1 overflow-y-auto scroll-smooth flex mb-2 justify-center">
               <div className="w-full max-w-2xl px-4 py-6 space-y-4">
 
                 {messages.map((msg, index) => (
@@ -122,8 +122,11 @@ export default function Chat() {
           </div>
 
           {/* Input Panel */}
-          <div className="bg-[#1E1F22] rounded-xl border border-[#25262B] p-3 flex items-end gap-2">
+         <div className="bg-[#1E1F22] rounded-xl border border-[#25262B] p-3 flex items-end gap-2">
 
+         
+          <div className="flex-1 rounded-2xl border border-gray-600 bg-[#242424] overflow-hidden">
+            
             <textarea
               ref={textareaRef}
               rows={1}
@@ -132,23 +135,26 @@ export default function Chat() {
               onInput={(e) => {
                 const target = e.target as HTMLTextAreaElement;
                 target.style.height = "auto";
-                target.style.height =
-                  Math.min(target.scrollHeight, 160) + "px";
+                target.style.height = Math.min(target.scrollHeight, 160) + "px";
               }}
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
-              className="flex-1 bg-[#242424] border border-gray-600 rounded-2xl px-4 py-2 focus:outline-none resize-none overflow-y-auto"
+              className="w-full bg-transparent px-4 py-2 
+                         focus:outline-none resize-none 
+                         overflow-y-auto"
             />
-
-            <button
-              onClick={sendMessage}
-              disabled={!message.trim()}
-              className="bg-white text-black px-4 py-2 rounded-2xl hover:bg-gray-300 disabled:opacity-50"
-            >
-              Send
-            </button>
+        
           </div>
-
+        
+          <button
+            onClick={sendMessage}
+            disabled={!message.trim()}
+            className="bg-white text-black px-4 py-2 rounded-2xl hover:bg-gray-300 "
+          >
+            Send
+          </button>
+        
+        </div>
         </div>
       </div>
     </div>
