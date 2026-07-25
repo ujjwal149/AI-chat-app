@@ -6,9 +6,27 @@ on:
       - main
 
 jobs:
-  hello:
-    runs-on: ubuntu-latest
+  frontend: 
+    run-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: client
 
     steps:
-      - name: Print Message
-        run: echo "Hello from GitHub Actions!"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install 
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Build Project 
+        run: npm run build
