@@ -1,0 +1,6 @@
+name: AI Chat App CI
+
+on:
+  push:
+    branches:
+      -main
