@@ -75,7 +75,7 @@ export default function Chat() {
             onClick={() => setMessages([])}
             className="bg-white text-black hover:bg-gray-300 p-2 w-full mt-6 rounded-2xl"
           >
-            Chat +
+            New Chat +
           </button>
 
           <div className="text-sm text-gray-400 mt-4">
