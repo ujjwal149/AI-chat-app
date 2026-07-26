@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+
 
 import type { Message } from "../types/message";
+import { sendChatMessage } from "../services/chatApi";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -29,16 +30,12 @@ export default function Chat() {
     }
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/chat`,
-        { message }
-      );
+      const reply = await sendChatMessage(message);
 
       const aiMessage: Message = {
         role: "assistant",
-        content: res.data.reply,
-      };
-
+        content: reply,
+      }
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error(error);
