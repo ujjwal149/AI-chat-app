@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
-import type { Message } from "./types/message";
+import type { Message } from "../types/message";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
