@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 
 import type { Message } from "../types/message";
 import { sendChatMessage } from "../services/chatApi";
+import Sidebar from "./layout/Sidebar";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -58,25 +59,9 @@ export default function Chat() {
       <div className="flex h-full gap-2">
 
         {/* Sidebar Panel */}
-        <div className="w-1/5 bg-[#1E1F22] rounded-xl border border-[#25262B] p-3 flex flex-col items-center">
-          <img
-            src="/chatAI-logo.png"
-            alt="ChatAI Logo"
-            className="w-20 h-20 object-contain"
-          />
 
-          <button
-            onClick={() => setMessages([])}
-            className="bg-white text-black hover:bg-gray-300 p-2 w-full mt-6 rounded-2xl"
-          >
-            New Chat +
-          </button>
-
-          <div className="text-sm text-gray-400 mt-4">
-            Chat history coming soon...
-          </div>
-        </div>
-
+        <Sidebar onNewChat={() => setMessages([])} />
+        
         {/* Right Section */}
         <div className="flex flex-col flex-1 gap-2">
 
