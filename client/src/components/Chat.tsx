@@ -7,6 +7,7 @@ import Sidebar from "./layout/Sidebar";
 
 import MessageBubble from "./chat/MessageBubble";
 import TypingIndicator from "./chat/TypingIndicator";
+import MessageInput from "./chat/MessageInput";
 
 
 export default function Chat() {
@@ -15,7 +16,6 @@ export default function Chat() {
   const [isTyping, setIsTyping] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Auto scroll
   useEffect(() => {
@@ -30,9 +30,6 @@ export default function Chat() {
     setMessage("");
     setIsTyping(true);
 
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-    }
 
     try {
       const reply = await sendChatMessage(message);
@@ -49,14 +46,7 @@ export default function Chat() {
     }
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
+  
 
   return (
     <div className="h-screen bg-[#2a2a2a] p-2 text-white">
@@ -92,39 +82,11 @@ export default function Chat() {
           </div>
 
           {/* Input Panel */}
-         <div className="bg-[#1E1F22] rounded-xl border border-[#25262B] p-3 flex items-end gap-2">
-
-         
-          <div className="flex-1 rounded-2xl border border-gray-600 bg-[#242424] overflow-hidden">
-            
-            <textarea
-              ref={textareaRef}
-              rows={1}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onInput={(e) => {
-                const target = e.target as HTMLTextAreaElement;
-                target.style.height = "auto";
-                target.style.height = Math.min(target.scrollHeight, 160) + "px";
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your message..."
-              className="w-full bg-transparent px-4 py-2 
-                         focus:outline-none resize-none 
-                         overflow-y-auto"
-            />
-        
-          </div>
-        
-          <button
-            onClick={sendMessage}
-            disabled={!message.trim()}
-            className="bg-white text-black px-4 py-2 rounded-2xl hover:bg-gray-300 "
-          >
-            Send
-          </button>
-        
-        </div>
+        <MessageInput
+          message={message}
+          setMessage={setMessage}
+          onSend={sendMessage}
+        />  
         </div>
       </div>
     </div>
