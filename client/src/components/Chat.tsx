@@ -4,7 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import type { Message } from "../types/message";
 import { sendChatMessage } from "../services/chatApi";
 import Sidebar from "./layout/Sidebar";
+
 import MessageBubble from "./chat/MessageBubble";
+import TypingIndicator from "./chat/TypingIndicator";
+
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -81,12 +84,8 @@ export default function Chat() {
                 ))}
 
                 {/* Typing indicator */}
-                {isTyping && (
-                  <div className="w-full px-4 py-3 rounded-lg bg-[#242424] text-gray-400 italic">
-                    <span className="animate-pulse">AI is typing...</span>
-                  </div>
-                )}
-
+               { isTyping && <TypingIndicator/>
+}
                 <div ref={bottomRef}></div>
               </div>
             </div>
