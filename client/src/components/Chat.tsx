@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import type { Message } from "../types/message";
 import { sendChatMessage } from "../services/chatApi";
 import Sidebar from "./layout/Sidebar";
+import MessageBubble from "./chat/MessageBubble";
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -73,19 +74,10 @@ export default function Chat() {
               <div className="w-full max-w-2xl px-4 py-6 space-y-4">
 
                 {messages.map((msg, index) => (
-                  <div key={index}>
-                    {msg.role === "assistant" ? (
-                      <div className="w-full px-4 py-3 rounded-lg bg-[#242424] text-gray-100 whitespace-pre-wrap wrap-break-words">
-                        {msg.content}
-                      </div>
-                    ) : (
-                      <div className="flex justify-end">
-                        <div className="max-w-xs px-4 py-2 rounded-lg bg-[#d9d9d9] text-black">
-                          {msg.content}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <MessageBubble
+                    key={index}
+                    message={msg}
+                  />
                 ))}
 
                 {/* Typing indicator */}
