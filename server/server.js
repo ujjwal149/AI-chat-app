@@ -1,30 +1,7 @@
-import "dotenv/config"; 
-
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import chatRoutes from "./routes/chatRoutes.js"
-
-
-
-const app = express();
+import app from "./app.js";
 
 const PORT = process.env.PORT || 5000;
 
-//middleware
-app.use(cors({
-  origin: true
-}));
-app.use(express.json());
-
-//Routes
-app.use("/api/chat",chatRoutes)
-
-app.get("/",(req,res) => {
-    res.send("Server is running...")
-})
-
-
-app.listen(PORT,() => {
-    console.log(`Server is running on port ${PORT}..`)
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}...`);
+});
