@@ -1,133 +1,291 @@
 # 🤖 Chat AI Web Application
 
-A full-stack AI chat application that allows users to interact with an intelligent assistant in real time. Built with modern web technologies, it delivers a smooth, responsive, and production-ready user experience.
+A full-stack AI chat application that enables users to interact with an AI assistant in real time. The application is built using React, Express, Docker, and AWS, and is deployed through a complete CI/CD pipeline using GitHub Actions.
 
 ---
 
-## 🚀 Features
+# 📸 Project Preview
 
-* 💬 Real-time AI chat interaction
-* ⚡ Fast and responsive UI (React + Tailwind CSS)
-* 📜 Auto-scroll and dynamic message rendering
-* ✍️ Expanding textarea input (ChatGPT-like UX)
-* ⌨️ Enter to send / Shift+Enter for new line
-* 🤖 Typing indicator for AI responses
-* 🌐 Fully deployed (Frontend + Backend)
+> **Add Screenshot:** Home Page / Chat Interface
 
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-* React (with TypeScript)
-* Tailwind CSS
-* Axios
-
-### Backend
-
-* Node.js
-* Express.js
-* AI API integration (OpenAI / Groq)
-
-### Deployment
-
-* Frontend: Vercel
-* Backend: Render
-
----
-
-## 📁 Project Structure
-
+```text
+docs/images/chat-ui.png
 ```
+
+---
+
+# 🚀 Features
+
+- 💬 Real-time AI chat interaction
+- ⚡ Fast and responsive UI
+- 📜 Dynamic message rendering
+- ✍️ Auto-expanding input box
+- ⌨️ Enter to send / Shift + Enter for newline
+- 🤖 AI typing indicator
+- 🐳 Dockerized frontend and backend
+- ☁️ AWS EC2 deployment
+- 🔄 Automatic deployment using GitHub Actions
+- 🌐 Nginx Reverse Proxy
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+
+## Backend
+
+- Node.js
+- Express.js
+- Groq API
+
+## DevOps
+
+- Docker
+- Docker Compose
+- AWS EC2
+- Nginx
+- GitHub Actions (CI/CD)
+- Ubuntu Server
+
+---
+
+# 🏗️ Architecture
+
+```text
+                 Git Push
+                    │
+                    ▼
+             GitHub Repository
+                    │
+                    ▼
+            GitHub Actions (CI/CD)
+                    │
+               SSH Deployment
+                    │
+                    ▼
+              AWS EC2 (Ubuntu)
+                    │
+            Docker Compose Stack
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+    React (Vite)         Express API
+          │                   │
+          └─────────┬─────────┘
+                    ▼
+                 Nginx
+                    │
+                    ▼
+                 Internet
+```
+
+---
+
+# 📸 Deployment Screenshots
+
+## AWS EC2 Instance
+
+![AWS EC2 Instance](docs/images/aws-ec2-instance.png)
+
+```text
+docs/images/aws-ec2-instance.png
+```
+
+---
+
+## Docker Containers
+
+![Docker Containers](docs/images/docker-ps.png)
+
+```text
+docs/images/docker-ps.png
+```
+
+---
+
+## GitHub Actions Deployment
+
+![GitHub Actions](docs/images/github-actions-success.png)
+
+```text
+docs/images/github-actions-success.png
+```
+
+---
+
+## Application Running
+
+![Application](docs/images/application-running.png)
+
+```text
+docs/images/application-running.png
+```
+
+---
+
+# 📂 Project Structure
+
+```text
 ai-chat-app/
 │
-├── client/        # React frontend
+├── client/
 │   ├── src/
-│   └── .env
+│   ├── Dockerfile
+│   ├── .env.example
+│   └── README.md
 │
-├── server/        # Express backend
+├── server/
 │   ├── controllers/
 │   ├── routes/
 │   ├── services/
-│   └── .env
+│   ├── Dockerfile
+│   ├── .env.example
+│   └── README.md
+│
+├── docker-compose.yml
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── cd.yml
+│
+└── README.md
 ```
 
 ---
 
-## ⚙️ Environment Variables
+# ⚙️ Environment Variables
 
-### 🔹 Client (`client/.env`)
+## Client (`client/.env`)
 
+```env
+VITE_API_URL=http://localhost:5000
 ```
-VITE_API_URL=https://your-backend-url
+
+When deployed behind Nginx, API requests are proxied through:
+
+```text
+/api/chat
 ```
 
-### 🔹 Server (`server/.env`)
+---
 
-```
+## Server (`server/.env`)
+
+```env
 PORT=5000
-OPENAI_API_KEY=your_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
 ---
 
-## 🧑‍💻 Installation & Setup
+# 🧑‍💻 Local Development
 
-### 1. Clone the repository
+## Clone Repository
 
-```
-git clone https://github.com/your-username/ai-chat-app.git
-cd ai-chat-app
+```bash
+git clone https://github.com/ujjwal149/AI-chat-app.git
+
+cd AI-chat-app
 ```
 
 ---
 
-### 2. Install dependencies
+## Install Dependencies
 
-#### Client
+### Client
 
-```
+```bash
 cd client
 npm install
 ```
 
-#### Server
+### Server
 
-```
+```bash
 cd server
 npm install
 ```
 
 ---
 
-### 3. Run the project
+## Run Development Servers
 
-#### Start backend
+### Backend
 
+```bash
+npm run dev
 ```
-cd server
-nodemon server.js
-```
 
-#### Start frontend
+### Frontend
 
-```
-cd client
+```bash
 npm run dev
 ```
 
 ---
 
-## 🌐 API Endpoint
+# 🐳 Docker
 
-```
-POST /api/chat
+Build and start the application:
+
+```bash
+docker compose up -d --build
 ```
 
-### Request Body
+Stop containers:
 
+```bash
+docker compose down
 ```
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+---
+
+# ☁️ AWS Deployment
+
+The application is deployed on an AWS EC2 Ubuntu instance using Docker Compose.
+
+Deployment includes:
+
+- Docker Engine
+- Docker Compose
+- Nginx Reverse Proxy
+- Elastic IP
+- GitHub Actions Continuous Deployment
+
+---
+
+# 🔄 CI/CD Pipeline
+
+Every push to the **main** branch automatically:
+
+- Runs Continuous Integration
+- Connects to EC2 through SSH
+- Pulls the latest code
+- Rebuilds Docker images
+- Restarts containers
+
+---
+
+# 🌐 API
+
+## POST `/api/chat`
+
+### Request
+
+```json
 {
   "message": "Hello AI"
 }
@@ -135,7 +293,7 @@ POST /api/chat
 
 ### Response
 
-```
+```json
 {
   "reply": "Hello! How can I help you?"
 }
@@ -143,37 +301,38 @@ POST /api/chat
 
 ---
 
-## 🎨 UI Highlights
+# 🎨 UI Highlights
 
-* IDE-style panel layout
-* Dark theme with layered colors
-* Clean spacing and typography
-* Smooth scrolling experience
-
----
-
-## 🔮 Future Improvements
-
-* 🧠 Chat memory (context-aware responses)
-* 📂 Chat history storage
-* 🔐 Authentication system
-* 📱 Mobile responsiveness enhancements
-* 🎙️ Voice input support
+- Modern ChatGPT-inspired interface
+- Responsive layout
+- Auto-scroll messages
+- Typing animation
+- Clean dark theme
 
 ---
 
-## 📌 Conclusion
+# 🚀 Future Improvements
 
-This project demonstrates how to build a modern AI-powered chat application using a full-stack approach. It combines clean UI design, efficient state management, and real-world API integration, making it a strong portfolio project for developers.
+- User Authentication
+- Chat History
+- Conversation Memory
+- Markdown Rendering
+- Image Upload
+- Streaming AI Responses
+- HTTPS with Let's Encrypt
+- Custom Domain
+- Monitoring & Logging
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Ujjwal Kumar**
 
+- GitHub: https://github.com/ujjwal149
+
 ---
 
-## ⭐ Support
+# ⭐ Support
 
-If you like this project, consider giving it a ⭐ on GitHub!
+If you found this project useful, please consider giving it a ⭐ on GitHub.
