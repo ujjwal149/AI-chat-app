@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# AI Chat App - Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend of the AI Chat App built with **React**, **TypeScript**, and **Vite**. It provides a clean and responsive chat interface for interacting with the backend AI service.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- TypeScript
+- Vite
+- CSS
+- Axios
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Modern chat interface
+- Real-time communication with the backend API
+- Responsive design
+- Fast development using Vite
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+client/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── services/
+│   ├── App.tsx
+│   └── main.tsx
+├── Dockerfile
+├── package.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file inside the `client` directory.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Example:
+
+```env
+VITE_API_URL=http://localhost:5000
 ```
+
+For production:
+
+```env
+VITE_API_URL=http://YOUR_SERVER_PUBLIC_IP:5000
+```
+
+Replace `YOUR_SERVER_PUBLIC_IP` with your deployed backend address.
+
+## Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+```
+http://localhost:5173
+```
+
+## Docker
+
+Build the Docker image:
+
+```bash
+docker build -t ai-chat-client .
+```
+
+Run the container:
+
+```bash
+docker run -p 5173:5173 ai-chat-client
+```
+
+Or use Docker Compose from the project root:
+
+```bash
+docker compose up --build
+```
+
+## Backend
+
+The client communicates with the Express backend through the API URL defined in the environment variables.
+
+Default development endpoint:
+
+```
+http://localhost:5000
+```
+
+## Deployment
+
+The frontend has been successfully deployed on **AWS EC2** using Docker.
+
+Deployment stack:
+
+- Ubuntu 24.04 LTS
+- Docker
+- Docker Compose
+- AWS EC2
+
+## License
+
+This project is licensed under the MIT License.
