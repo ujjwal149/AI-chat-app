@@ -31,7 +31,7 @@ describe("sendChatMessage", () => {
     await sendChatMessage("Hi");
 
     expect(axios.post).toHaveBeenCalledWith(
-      `${import.meta.env.VITE_API_URL}/api/chat`,
+      "/api/chat",
       {
         message: "Hi",
       }
