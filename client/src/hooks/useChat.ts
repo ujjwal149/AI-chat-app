@@ -25,19 +25,34 @@ export function useChat() {
     setIsTyping(true);
 
     try {
-      const reply = await sendChatMessage(message);
+  const assistantMessage: Message = {
+    role: "assistant",
+    content: "",
+  };
 
-      const aiMessage: Message = {
-        role: "assistant",
-        content: reply,
-      };
+  setMessages((prev) => [...prev, assistantMessage]);
 
-      setMessages((prev) => [...prev, aiMessage]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setTimeout(() => setIsTyping(false), 300);
-    }
+  await sendChatMessage(message, (chunk) => {
+    setMessages((prev) => {
+      const updated = [...prev];
+
+      const lastIndex = updated.length - 1;
+
+      if (updated[lastIndex]?.role === "assistant") {
+        updated[lastIndex] = {
+            ...updated[lastIndex],
+            content: updated[lastIndex].content + chunk,
+          };
+        }
+
+    return updated;
+  });
+});
+} catch (error) {
+  console.error(error);
+} finally {
+  setTimeout(() => setIsTyping(false), 300);
+}
   };
 
   return {

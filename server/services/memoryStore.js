@@ -5,7 +5,7 @@ export const addMessage = (role, content) => {
 };
 
 export const getMemory = () => {
-  return memory;
+  return memory.slice(-5);
 };
 
 export const clearMemory = () => {

@@ -1,14 +1,27 @@
 import {getAIResponse} from "../services/aiServices.js"
 
-export const handleChat = async (req,res) => {
-    try{
-        const {message} = req.body
+export const handleChat = async (req, res) => {
+  try {
+    const { message } = req.body;
 
-        const reply = await getAIResponse(message);
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Transfer-Encoding", "chunked");
 
-        res.json({reply});
-    }catch(error){
-        console.log(error);
-        res.status(500).json({error:"AI Error"});
+    await getAIResponse(message, (chunk) => {
+        
+      res.write(chunk);
+    });
+
+    
+
+    res.end();
+  } catch (error) {
+    console.log(error);
+
+    if (!res.headersSent) {
+      res.status(500).json({ error: "AI Error" });
+    } else {
+      res.end();
     }
+  }
 };
