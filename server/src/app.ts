@@ -2,24 +2,27 @@ import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
-
-import prisma from "./lib/prisma.ts";
+import cookieParser from "cookie-parser";
 
 import chatRoutes from "./routes/chatRoutes.ts";
 import signupRoutes from "./routes/authRoutes.ts";
 
 const app = express();
 
-// Middleware
+//-----Cookie parser middleware---//
+app.use(cookieParser());
+
+//--------Middleware---------//
 app.use(
   cors({
-    origin: true,
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
-// Routes
+//--------Routes--------//
 app.use("/api/chat", chatRoutes);
 app.use("/api/auth",signupRoutes);
 

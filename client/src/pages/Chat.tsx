@@ -1,7 +1,7 @@
 
-import Sidebar from "./layout/Sidebar";
-import ChatWindow from "./chat/ChatWindow";
-import MessageInput from "./chat/MessageInput";
+import Sidebar from "../components/layout/Sidebar";
+import ChatWindow from "../components/chat/ChatWindow";
+import MessageInput from "../components/chat/MessageInput";
 
 import { useChat } from "../hooks/useChat";
 
