@@ -11,7 +11,7 @@ type AuthState = {
   isAuthenticated: boolean;
   loading: boolean;
 
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   setLoading: (loading: boolean) => void;
   logout: () => void;
 };
@@ -24,7 +24,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user) =>
     set({
       user,
-      isAuthenticated: true,
+      isAuthenticated: user !== null,
     }),
 
     setLoading: (loading) =>

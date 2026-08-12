@@ -16,7 +16,7 @@ describe("sendChatMessage", () => {
       },
     });
 
-    const reply = await sendChatMessage("Hi");
+    const reply = await sendChatMessage("Hi", () => {});
 
     expect(reply).toBe("Hello!");
   });
@@ -28,7 +28,7 @@ describe("sendChatMessage", () => {
       },
     });
 
-    await sendChatMessage("Hi");
+    await sendChatMessage("Hi", () => {});
 
     expect(axios.post).toHaveBeenCalledWith(
       "/api/chat",
@@ -43,6 +43,8 @@ describe("sendChatMessage", () => {
 
     vi.mocked(axios.post).mockRejectedValue(error);
 
-    await expect(sendChatMessage("Hi")).rejects.toThrow("Network Error");
+    await expect(
+      sendChatMessage("Hi", () => {})
+    ).rejects.toThrow("Network Error");
   });
 });
