@@ -16,22 +16,16 @@ export default function MessageInput({
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      onSend();
-    }
-  };
-
-
-  
-  
-
-
+      e: React.KeyboardEvent<HTMLTextAreaElement>
+    ) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        onSend();
+      }
+    };
 
     return(
-        <div className="bg-[#1E1F22] rounded-xl border border-[#25262B] p-3 flex items-end gap-2">
+        <div className="bg-[#181818] rounded-xl border border-[#25262B] p-3 flex items-end gap-2">
 
          
           <div className="flex-1 rounded-2xl border border-gray-600 bg-[#242424] overflow-hidden">
@@ -48,9 +42,7 @@ export default function MessageInput({
               }}
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
-              className="w-full bg-transparent px-4 py-2 
-                         focus:outline-none resize-none 
-                         overflow-y-auto"
+              className="w-full bg-transparent px-4 py-2 focus:outline-none resize-none overflow-y-auto"
             />
         
           </div>

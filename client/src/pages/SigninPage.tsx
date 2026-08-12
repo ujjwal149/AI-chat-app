@@ -5,55 +5,32 @@ export default function SigninPage() {
   const navigate = useNavigate();
 
   return (
-    <main className="min-h-screen bg-[#111111] flex items-center justify-center px-4 py-10">
+    <main className="max-h-screen bg-[#111111] flex items-center justify-center px-4 py-10">
+
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="  absolute  left-1/2  top-[-120px]  h-[500px]  w-[500px]  -translate-x-1/2  rounded-full  bg-indigo-500/[0.06]  blur-[120px]"
+        />
+      </div>
 
       {/* Card wrapper */}
-      <div className="relative w-full max-w-2xl">
+      <div className="relative w-full max-w-xl">
 
         {/* Back layer 1 */}
         <div
-          className="
-            absolute
-            -inset-3
-            translate-x-3
-            translate-y-3
-            rounded-[28px]
-            border
-            border-white/[0.04]
-            bg-white/[0.008]
-          "
+          className="  absolute  -inset-3  translate-x-3  translate-y-3  rounded-[28px]  border  border-white/[0.04]  bg-white/[0.008]"
         />
 
         {/* Back layer 2 */}
         <div
-          className="
-            absolute
-            -inset-1.5
-            translate-x-1.5
-            translate-y-1.5
-            rounded-[28px]
-            border
-            border-white/[0.06]
-            bg-white/[0.01]
-          "
+          className="  absolute  -inset-1.5  translate-x-1.5  translate-y-1.5  rounded-[28px]  border  border-white/[0.06]  bg-white/[0.01]"
         />
 
         {/* Main card */}
         <section
-          className="
-            relative
-            z-10
-            w-full
-            rounded-[28px]
-            border
-            border-white/[0.10]
-            bg-[#181818]
-            px-6
-            py-10
-            shadow-2xl
-            sm:px-12
-            sm:py-12
-          "
+          className="  relative  z-10  w-full  rounded-[28px]  border  border-white/[0.10]  
+                      bg-[#181818]  px-6  py-10  shadow-2xl  sm:px-12  sm:py-12"
         >
 
           {/* Logo */}
@@ -99,12 +76,7 @@ export default function SigninPage() {
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
-                className="
-                  font-medium
-                  text-white
-                  transition
-                  hover:text-indigo-400
-                "
+                className="  font-medium  text-white  transition  hover:text-indigo-400"
               >
                 Create account
               </button>

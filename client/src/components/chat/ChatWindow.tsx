@@ -16,8 +16,6 @@ export default function ChatWindow({
 }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto scroll whenever a new message arrives
-  // or the typing indicator appears/disappears.
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -25,7 +23,8 @@ export default function ChatWindow({
   }, [messages, isTyping]);
 
   return (
-    <div className="flex-1 bg-[#1E1F22] rounded-xl border border-[#25262B] flex flex-col overflow-hidden">
+    <div className="flex-1 bg-[#181818] rounded-xl border border-[#25262B] flex flex-col overflow-hidden">
+      
       {/* Messages */}
       <div className="flex-1 overflow-y-auto scroll-smooth flex justify-center mb-2">
         <div className="w-full max-w-2xl px-4 py-6 space-y-4">

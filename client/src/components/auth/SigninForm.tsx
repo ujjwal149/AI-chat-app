@@ -8,7 +8,7 @@ import { useAuthStore } from "../../stores/authStore";
 import { signinSchema, type SigninInput} from "../../validations/authSchema";
 import { signin } from "../../services/authService";
 
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -19,6 +19,7 @@ type BackendError = {
 
 function SigninForm() {
     const navigate = useNavigate();
+    const location = useLocation();
 
   const [backendError, setBackendError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +32,9 @@ function SigninForm() {
       formState: { errors },
     } = useForm<SigninInput>({
       resolver: zodResolver(signinSchema),
+      defaultValues: {
+        email: location.state?.email ?? "",
+      },
     });
 
 

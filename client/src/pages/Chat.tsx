@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 import Sidebar from "../components/layout/Sidebar";
 import ChatWindow from "../components/chat/ChatWindow";
@@ -6,7 +7,7 @@ import MessageInput from "../components/chat/MessageInput";
 import { useChat } from "../hooks/useChat";
 
 export default function Chat() {
-   const {
+  const {
     message,
     setMessage,
     messages,
@@ -15,15 +16,22 @@ export default function Chat() {
     setMessages,
   } = useChat();
 
-
-  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="h-screen bg-[#2a2a2a] p-2 text-white">
-      <div className="flex h-full gap-2">
-        <Sidebar onNewChat={() => setMessages([])} />
+    <main className="h-dvh overflow-hidden bg-[#2a2a2a] p-1.5 text-white sm:p-2">
+      <div className="flex h-full min-h-0 gap-1.5 sm:gap-2">
 
-        <div className="flex flex-col flex-1 gap-2">
+        {/* Sidebar */}
+        <Sidebar
+          onNewChat={() => setMessages([])}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          onOpen={() => setIsSidebarOpen(true)}
+        />
+
+        {/* Chat area */}
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 sm:gap-2">
           <ChatWindow
             messages={messages}
             isTyping={isTyping}
@@ -36,6 +44,6 @@ export default function Chat() {
           />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
