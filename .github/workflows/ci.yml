@@ -57,5 +57,5 @@ jobs:
       - name: Install Backend Dependencies
         run: npm install
 
-      - name: Check Server Syntax
-        run: node --check server.js
+      - name: Type Check Backend
+        run: npm run typecheck
