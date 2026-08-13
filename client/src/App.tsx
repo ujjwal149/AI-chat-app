@@ -1,7 +1,7 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import SigninPage from "./pages/SigninPage";
-import SignupPage from "./pages/SignupPage"
+import SignupPage from "./pages/SignupPage";
 import Chat from "./pages/Chat";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -20,18 +20,27 @@ function App() {
 
   return (
     <Routes>
+      {/* Signin page route */}
       <Route
         path="/signin"
         element={<SigninPage />}
       />
 
+      {/* Signup page route */}
       <Route
         path="/signup"
         element={<SignupPage />}
       />
 
+      {/* / redirects to /chat */}
       <Route
         path="/"
+        element={<Navigate to="/chat" replace />}
+      />
+
+      {/* Protected chat page */}
+      <Route
+        path="/chat"
         element={
           <ProtectedRoute>
             <Chat />
