@@ -134,6 +134,9 @@ export const signin = async (
 
     const token = generateToken(user.id);
 
+    console.log("NODE_ENV:", process.env.NODE_ENV);
+    console.log("isProduction:", isProduction);
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProduction,
