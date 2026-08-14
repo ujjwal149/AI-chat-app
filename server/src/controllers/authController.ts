@@ -3,18 +3,30 @@ import bcrypt from "bcrypt";
 
 import prisma from "../lib/prisma.ts";
 
-import { generateToken } from "../lib/jwt.ts";
+import { generateToken} from "../lib/jwt.ts";
 
 import { signupSchema } from "../validations/signupSchema.ts";
 import { signinSchema } from "../validations/signinSchema.ts";
 
 import { createOtp, verifyOtp } from "../services/otpService.ts";
-import { sendVerificationEmail } from "../services/emailService.ts";
 
+import {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+} from "../services/emailService.ts";
+
+import {
+  generatePasswordResetToken,
+  verifyPasswordResetToken,
+} from "../lib/jwt.ts";
+
+import {
+  forgotPasswordSchema,
+  verifyResetOtpSchema,
+  resetPasswordSchema,
+} from "../validations/passwordResetSchema.ts";
 
 //----------Signup Controller----------//
-//----------Signup Controller----------//
-
 export const signup = async (
   req: Request,
   res: Response
@@ -381,6 +393,197 @@ export const resendVerificationEmail = async (
 
     res.status(500).json({
       error: "Unable to send verification email",
+    });
+  }
+};
+
+// ---------- Forgot Password Controller ---------- //
+
+export const forgotPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const result = forgotPasswordSchema.safeParse(req.body);
+
+    if (!result.success) {
+      res.status(400).json({
+        error: "Invalid email address",
+      });
+      return;
+    }
+
+    const { email } = result.data;
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      res.status(200).json({
+        message:
+          "If an account exists with this email, a password reset code has been sent.",
+      });
+      return;
+    }
+
+    const otp = await createOtp(
+      user.id,
+      "PASSWORD_RESET"
+    );
+
+    await sendPasswordResetEmail(
+      user.email,
+      otp
+    );
+
+    res.status(200).json({
+      message:
+        "If an account exists with this email, a password reset code has been sent.",
+    });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+
+    res.status(500).json({
+      error: "Unable to process password reset request",
+    });
+  }
+};
+
+// ---------- Verify Password Reset OTP ---------- //
+
+export const verifyResetOtp = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const result = verifyResetOtpSchema.safeParse(req.body);
+
+    if (!result.success) {
+      res.status(400).json({
+        error: "Validation failed",
+        details: result.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const { email, otp } = result.data;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      res.status(400).json({
+        error: "Invalid verification request",
+      });
+      return;
+    }
+
+    const isValid = await verifyOtp(
+      user.id,
+      otp,
+      "PASSWORD_RESET"
+    );
+
+    if (!isValid) {
+      res.status(400).json({
+        error: "Invalid or expired OTP",
+      });
+      return;
+    }
+
+    const resetToken = generatePasswordResetToken(
+      user.id
+    );
+
+    res.status(200).json({
+      message: "OTP verified successfully",
+      resetToken,
+    });
+  } catch (error) {
+    console.error("Verify reset OTP error:", error);
+
+    res.status(500).json({
+      error: "Unable to verify reset OTP",
+    });
+  }
+};
+
+// ---------- Reset Password Controller ---------- //
+
+export const resetPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const result = resetPasswordSchema.safeParse(req.body);
+
+    if (!result.success) {
+      res.status(400).json({
+        error: "Validation failed",
+        details: result.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const { resetToken, newPassword } = result.data;
+
+    let payload;
+
+    try {
+      payload = verifyPasswordResetToken(resetToken);
+    } catch {
+      res.status(400).json({
+        error: "Invalid or expired reset token",
+      });
+      return;
+    }
+
+    if (payload.purpose !== "PASSWORD_RESET") {
+      res.status(400).json({
+        error: "Invalid reset token",
+      });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: payload.userId,
+      },
+    });
+
+    if (!user) {
+      res.status(400).json({
+        error: "Invalid reset request",
+      });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    res.status(200).json({
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    console.error("Reset password error:", error);
+
+    res.status(500).json({
+      error: "Unable to reset password",
     });
   }
 };

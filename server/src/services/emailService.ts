@@ -41,3 +41,44 @@ export const sendVerificationEmail = async (
     throw new Error("Unable to send verification email");
   }
 };
+
+
+
+
+//------------Password reset email---------------//
+export const sendPasswordResetEmail = async (
+  email: string,
+  otp: string
+): Promise<void> => {
+  const { error } = await resend.emails.send({
+    from: emailFrom,
+    to: email,
+    subject: "Reset your ChatAI password",
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2>Reset your password</h2>
+
+        <p>
+          We received a request to reset your ChatAI password.
+        </p>
+
+        <p>Your password reset code is:</p>
+
+        <h1 style="letter-spacing: 8px;">${otp}</h1>
+
+        <p>This code will expire in 10 minutes.</p>
+
+        <p>
+          If you did not request a password reset,
+          you can safely ignore this email.
+        </p>
+      </div>
+    `,
+  });
+
+  if (error) {
+    console.error("Resend password reset email error:", error);
+    throw new Error("Unable to send password reset email");
+  }
+};
+
