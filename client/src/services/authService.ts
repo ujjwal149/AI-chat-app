@@ -17,6 +17,37 @@ export async function signup(
   return response.data;
 }
 
+
+//-----------verifyEmail----------------//
+export async function verifyEmail(
+  email: string,
+  otp: string
+): Promise<{ message: string }> {
+  const response = await api.post<{ message: string }>(
+    "/auth/verify-email",
+    {
+      email,
+      otp,
+    }
+  );
+
+  return response.data;
+}
+
+//-----------resendVerificationEmail----------------//
+export async function resendVerificationEmail(
+  email: string
+): Promise<{ message: string }> {
+  const response = await api.post<{ message: string }>(
+    "/auth/resend-email-verification",
+    {
+      email,
+    }
+  );
+
+  return response.data;
+}
+
 //-----------signin----------------//
 export async function signin(
   input: SigninInput

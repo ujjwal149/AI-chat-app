@@ -31,7 +31,7 @@ export default function SignupForm() {
     try{
       await signup(data);
 
-      navigate("/signin",{
+      navigate("/verify-email",{
         state:{
           email: data.email,
         }

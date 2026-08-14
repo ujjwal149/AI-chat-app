@@ -8,8 +8,13 @@ import { generateToken } from "../lib/jwt.ts";
 import { signupSchema } from "../validations/signupSchema.ts";
 import { signinSchema } from "../validations/signinSchema.ts";
 
+import { createOtp, verifyOtp } from "../services/otpService.ts";
+import { sendVerificationEmail } from "../services/emailService.ts";
+
 
 //----------Signup Controller----------//
+//----------Signup Controller----------//
+
 export const signup = async (
   req: Request,
   res: Response
@@ -24,8 +29,6 @@ export const signup = async (
       });
       return;
     }
-
-    console.log("Validation successful:", result.data);
 
     const { name, email, password } = result.data;
 
@@ -57,19 +60,47 @@ export const signup = async (
       },
     });
 
-    const isProduction = process.env.NODE_ENV === "production";
-    const token = generateToken(user.id);
+    try {
+      const otp = await createOtp(
+        user.id,
+        "EMAIL_VERIFICATION"
+      );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      await sendVerificationEmail(
+        user.email,
+        otp
+      );
+    } catch (emailError) {
+      console.error(
+        "Signup email delivery failed:",
+        emailError
+      );
+
+      await prisma.user.delete({
+        where: {
+          id: user.id,
+        },
+      });
+
+      res.status(500).json({
+        error:
+          "Unable to send verification email. Please try again.",
+      });
+
+      return;
+    }
+
+    res.status(201).json({
+      message:
+        "Account created. Verification code sent to your email.",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     });
-    
-    res.status(201).json({ user });
   } catch (error) {
-    console.error(error);
+    console.error("Signup error:", error);
 
     res.status(500).json({
       error: "Unable to create user",
@@ -109,6 +140,14 @@ export const signin = async (
       return;
     }
 
+    if (!user.emailVerified) {
+      res.status(403).json({
+        error: "Please verify your email before signing in",
+      });
+    
+      return;
+    }
+
     if (!user.password) {
       res.status(401).json({
         error: "Invalid credentials",
@@ -133,9 +172,6 @@ export const signin = async (
     const isProduction = process.env.NODE_ENV === "production";
 
     const token = generateToken(user.id);
-
-    console.log("NODE_ENV:", process.env.NODE_ENV);
-    console.log("isProduction:", isProduction);
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -187,7 +223,6 @@ export const currentUser = async (
   try {
     const userId = req.userId;
 
-    console.log("Current user ID:", userId);
     
     if (!userId) {
       res.status(401).json({
@@ -224,6 +259,128 @@ export const currentUser = async (
 
     res.status(500).json({
       error: "Unable to get current user",
+    });
+  }
+};
+
+// ---------- Verify Email Controller ---------- //
+export const verifyEmail = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      res.status(400).json({
+        error: "Email and OTP are required",
+      });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      res.status(400).json({
+        error: "Invalid verification request",
+      });
+      return;
+    }
+
+    if (user.emailVerified) {
+      res.status(400).json({
+        error: "Email is already verified",
+      });
+      return;
+    }
+
+    const isValid = await verifyOtp(
+      user.id,
+      otp,
+      "EMAIL_VERIFICATION"
+    );
+
+    if (!isValid) {
+      res.status(400).json({
+        error: "Invalid or expired OTP",
+      });
+      return;
+    }
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        emailVerified: true,
+      },
+    });
+
+    res.status(200).json({
+      message: "Email verified successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: "Unable to verify email",
+    });
+  }
+};
+
+//--------------resend verification email controller----------------//
+export const resendVerificationEmail = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      res.status(400).json({
+        error: "Email is required",
+      });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      res.status(400).json({
+        error: "Unable to send verification email",
+      });
+      return;
+    }
+
+    if (user.emailVerified) {
+      res.status(400).json({
+        error: "Email is already verified",
+      });
+      return;
+    }
+
+    const otp = await createOtp(
+      user.id,
+      "EMAIL_VERIFICATION"
+    );
+
+    await sendVerificationEmail(
+      user.email,
+      otp
+    );
+
+    res.status(200).json({
+      message: "Verification code sent successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: "Unable to send verification email",
     });
   }
 };

@@ -2,7 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
+
 import Chat from "./pages/Chat";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import { useAuth } from "./hooks/useAuth";
@@ -30,6 +33,12 @@ function App() {
       <Route
         path="/signup"
         element={<SignupPage />}
+      />
+
+      {/* Verify Email page route */}
+      <Route
+        path="/verify-email"
+        element={<VerifyEmailPage />}
       />
 
       {/* / redirects to /chat */}
