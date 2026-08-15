@@ -179,7 +179,7 @@ export default function SignupForm() {
         disabled={isLoading}
         className="  w-full  rounded-[10px]  bg-white  px-4  py-3  text-[13px]  font-medium  
         text-black  transition  hover:bg-[#e8e8e8]  focus:outline-none  focus:ring-2  focus:ring-white/20 
-         disabled:cursor-not-allowed  disabled:opacity-50"
+         disabled:cursor-not-allowed  disabled:opacity-50 cursor-pointer"
       >
         {isLoading ? "Creating account..." : "Sign up"}
       </button>

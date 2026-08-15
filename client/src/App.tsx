@@ -3,6 +3,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import VerifyResetOtpPage from "./pages/VerifyResetOtpPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import Chat from "./pages/Chat";
 
@@ -39,6 +42,24 @@ function App() {
       <Route
         path="/verify-email"
         element={<VerifyEmailPage />}
+      />
+
+      {/* Forgot passowrd*/}
+      <Route
+        path="/forgot-password"
+        element={<ForgotPasswordPage />}
+      />
+
+      {/* Reset reset OTP */}
+      <Route
+        path="/verify-reset-otp"
+        element={<VerifyResetOtpPage />}
+      />
+
+      {/* Reset password */}
+      <Route
+        path="/reset-password"
+        element={<ResetPasswordPage />}
       />
 
       {/* / redirects to /chat */}

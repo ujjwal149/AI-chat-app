@@ -50,7 +50,7 @@ export default function MessageInput({
           <button
             onClick={onSend}
             disabled={!message.trim()}
-            className="bg-white text-black px-4 py-2 rounded-2xl hover:bg-gray-300 "
+            className="bg-white text-black px-4 py-2 rounded-2xl cursor-pointer hover:bg-gray-300 "
           >
             Send
           </button>

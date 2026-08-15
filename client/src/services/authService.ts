@@ -48,6 +48,52 @@ export async function resendVerificationEmail(
   return response.data;
 }
 
+//-----------forgot Password-----------//
+export async function forgotPassword(
+  email: string
+): Promise<{ message: string }> {
+  const response = await api.post<{ message: string }>(
+    "/auth/forgot-password",
+    {
+      email,
+    }
+  );
+
+  return response.data;
+}
+
+//-----------verifyResetOtp----------------//
+export async function verifyResetOtp(
+  email: string,
+  otp: string
+): Promise<{ resetToken: string }> {
+  const response = await api.post<{ resetToken: string }>(
+    "/auth/verify-reset-otp",
+    {
+      email,
+      otp,
+    }
+  );
+
+  return response.data;
+}
+
+//-----------resetPassword----------------//
+export async function resetPassword(
+  resetToken: string,
+  newPassword: string
+): Promise<{ message: string }> {
+  const response = await api.post<{ message: string }>(
+    "/auth/reset-password",
+    {
+      resetToken,
+      newPassword,
+    }
+  );
+
+  return response.data;
+}
+
 //-----------signin----------------//
 export async function signin(
   input: SigninInput

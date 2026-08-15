@@ -127,7 +127,9 @@ function SigninForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-black transition hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-50"      >
+        className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-black transition 
+        hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white/30 
+        disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"      >
         {isLoading ? "Signing in..." : "Sign in"}
       </button>
     </form>

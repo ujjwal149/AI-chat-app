@@ -77,7 +77,7 @@ export default function VerifyEmailPage() {
             <button
               type="button"
               onClick={() => navigate("/signup")}
-              className="text-sm font-medium text-white transition hover:text-gray-300"
+              className="text-sm font-medium text-white cursor-pointer transition hover:text-gray-300"
             >
               Use a different email
             </button>

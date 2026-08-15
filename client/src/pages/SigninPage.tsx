@@ -56,6 +56,17 @@ export default function SigninPage() {
           {/* Form */}
           <SigninForm />
 
+          {/* Forgot password */}
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => navigate("/forgot-password")}
+              className="text-sm font-medium text-gray-400 transition hover:text-white cursor-pointer"
+            >
+              Forgot password?
+            </button>
+          </div>
+
           {/* Terms */}
           <p className="mx-auto mt-6 max-w-md text-center text-xs leading-5 text-gray-500">
             By continuing, you agree to our{" "}
@@ -76,7 +87,7 @@ export default function SigninPage() {
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
-                className="  font-medium  text-white  transition  hover:text-indigo-400"
+                className="  font-medium  text-white  transition cursor-pointer  hover:text-indigo-400"
               >
                 Create account
               </button>

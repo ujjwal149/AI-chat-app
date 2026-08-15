@@ -67,7 +67,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="  font-medium  text-white  transition  hover:text-gray-300"
+                className="  font-medium  text-white  transition  hover:text-gray-300 cursor-pointer"
               >
                 Sign in
               </button>

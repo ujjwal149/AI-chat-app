@@ -58,18 +58,7 @@ export default function Sidebar({
           type="button"
           onClick={onOpen}
           aria-label="Open sidebar"
-          className="
-            flex
-            h-10
-            w-10
-            items-center
-            justify-center
-            rounded-lg
-            text-gray-400
-            transition
-            hover:bg-white/10
-            hover:text-white
-          "
+          className="  flex  h-10  w-10  items-center  justify-center  rounded-lg cursor-pointer text-gray-400  transition  hover:bg-white/10  hover:text-white"
         >
           <Menu size={21} />
         </button>
@@ -79,19 +68,7 @@ export default function Sidebar({
           type="button"
           aria-label="Chats"
           onClick={onOpen}
-          className="
-            mt-4
-            flex
-            h-10
-            w-10
-            items-center
-            justify-center
-            rounded-lg
-            bg-[#303039]
-            text-blue-400
-            transition
-            hover:bg-[#3a3a45]
-          "
+          className="  mt-4  flex  h-10  w-10  items-center  justify-center cursor-pointer rounded-lg  bg-[#303039]  text-blue-400  transition  hover:bg-[#3a3a45]"
         >
           <MessageSquare size={20} />
         </button>
@@ -101,19 +78,7 @@ export default function Sidebar({
           type="button"
           onClick={onNewChat}
           aria-label="New chat"
-          className="
-            mt-3
-            flex
-            h-10
-            w-10
-            items-center
-            justify-center
-            rounded-lg
-            text-gray-400
-            transition
-            hover:bg-white/10
-            hover:text-white
-          "
+          className="  mt-3  flex  h-10  w-10  items-center  justify-center  rounded-lg cursor-pointer  text-gray-400  transition  hover:bg-white/10  hover:text-white"
         >
           <Plus size={22} />
         </button>
@@ -150,7 +115,7 @@ export default function Sidebar({
           className="
             fixed
             inset-0
-            z-40
+            z-40 cursor-pointer
             bg-black/60
             backdrop-blur-[2px]
             md:hidden
@@ -174,7 +139,7 @@ export default function Sidebar({
           border
           border-[#25262B]
           bg-[#181818]
-          p-3
+          p-3 cursor-pointer
           shadow-2xl
           transition-transform
           duration-300
@@ -207,7 +172,7 @@ export default function Sidebar({
             className="
               flex
               h-9
-              w-9
+              w-9 cursor-pointer
               items-center
               justify-center
               rounded-lg
@@ -237,7 +202,7 @@ export default function Sidebar({
             rounded-xl
             bg-white
             px-4
-            py-3
+            py-3 cursor-pointer
             text-sm
             font-medium
             text-black
@@ -258,7 +223,7 @@ export default function Sidebar({
         <div
           className="
             mt-auto
-            w-full
+            w-full 
             border-t
             border-white/[0.08]
             pt-4
@@ -279,7 +244,7 @@ export default function Sidebar({
               text-sm
               font-medium
               text-white
-              transition
+              transition 
               hover:bg-white/5
               hover:text-gray-300
             "
@@ -344,7 +309,7 @@ export default function Sidebar({
             transition
             hover:bg-gray-200
             focus:outline-none
-            focus:ring-2
+            focus:ring-2 cursor-pointer
             focus:ring-white/30
           "
         >
@@ -382,7 +347,7 @@ export default function Sidebar({
               text-sm
               font-medium
               text-white
-              transition
+              transition cursor-pointer
               hover:bg-white/5
               hover:text-gray-300
             "
