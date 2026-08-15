@@ -1,4 +1,6 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
+
+import LandingPage from "./pages/LandingPage";
 
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
@@ -26,6 +28,14 @@ function App() {
 
   return (
     <Routes>
+
+
+      {/*LandingPage*/}
+      <Route
+        path="/"
+        element={<LandingPage />}
+      />
+
       {/* Signin page route */}
       <Route
         path="/signin"
@@ -60,12 +70,6 @@ function App() {
       <Route
         path="/reset-password"
         element={<ResetPasswordPage />}
-      />
-
-      {/* / redirects to /chat */}
-      <Route
-        path="/"
-        element={<Navigate to="/chat" replace />}
       />
 
       {/* Protected chat page */}

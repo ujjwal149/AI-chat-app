@@ -42,9 +42,6 @@ export const sendVerificationEmail = async (
   }
 };
 
-
-
-
 //------------Password reset email---------------//
 export const sendPasswordResetEmail = async (
   email: string,
