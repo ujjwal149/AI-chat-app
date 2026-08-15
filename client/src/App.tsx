@@ -1,6 +1,7 @@
 import { Routes, Route} from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
+import LoadingScreen from "./components/ui/LoadingScreen";
 
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
@@ -19,17 +20,12 @@ function App() {
   const { loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <Routes>
-
-
+      
       {/*LandingPage*/}
       <Route
         path="/"
