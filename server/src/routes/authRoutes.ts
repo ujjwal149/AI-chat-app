@@ -1,15 +1,18 @@
-import {Router} from "express";
-import { 
+import { Router } from "express";
+import passport from "passport";
+
+import {
   signup,
-  signin, 
+  signin,
   logout,
   currentUser,
-  verifyEmail, 
+  verifyEmail,
   resendVerificationEmail,
   forgotPassword,
   verifyResetOtp,
   resetPassword,
-  } from "../controllers/authController.ts";
+  googleCallback,
+} from "../controllers/authController.ts";
 
 import { authMiddleware } from "../middlewares/authMiddleware.ts";
 
@@ -29,5 +32,23 @@ router.post(
 router.post("/forgot-password", forgotPassword);
 router.post("/verify-reset-otp", verifyResetOtp);
 router.post("/reset-password", resetPassword);
+
+
+// ---------- Google OAuth ---------- //
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+  }),
+  googleCallback
+);
 
 export default router;

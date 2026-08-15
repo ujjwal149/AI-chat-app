@@ -587,3 +587,43 @@ export const resetPassword = async (
     });
   }
 };
+
+// ---------- Google OAuth Callback Controller ---------- //
+
+export const googleCallback = (
+  req: Request,
+  res: Response
+): void => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      res.redirect(
+        `${process.env.CLIENT_URL}/signin?error=google_auth_failed`
+      );
+      return;
+    }
+
+    const token = generateToken(user.id);
+
+    const isProduction =
+      process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.redirect(
+      `${process.env.CLIENT_URL}/chat`
+    );
+  } catch (error) {
+    console.error("Google callback error:", error);
+
+    res.redirect(
+      `${process.env.CLIENT_URL}/signin?error=google_auth_failed`
+    );
+  }
+};

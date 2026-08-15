@@ -1,33 +1,39 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { FcGoogle } from "react-icons/fc";
+
 export default function LandingPage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [technologyVisible, setTechnologyVisible] = useState(false);
+  const [technologyVisible, setTechnologyVisible] = useState(false);
+  const technologyRef = useRef<HTMLElement | null>(null);
 
-    const technologyRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const section = technologyRef.current;
 
-    useEffect(() => {
-      const section = technologyRef.current;
+    if (!section) return;
 
-      if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setTechnologyVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.25,
+      }
+    );
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          setTechnologyVisible(entry.isIntersecting);
-        },
-        {
-          threshold: 0.25,
-        }
-      );
+    observer.observe(section);
 
-      observer.observe(section);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
-      return () => {
-        observer.disconnect();
-      };
-    }, []);
+  const handleGoogleLogin = () => {
+    window.location.href = "/api/auth/google";
+  };
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-[#111111] text-white">
@@ -35,16 +41,46 @@ export default function LandingPage() {
       {/* Background glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div
-          className="absolute left-1/2 top-[-180px] h-[600px] w-[600px]
-          -translate-x-1/2 rounded-full bg-indigo-500/[0.06] blur-[140px]"
+          className="
+            absolute
+            left-1/2
+            top-[-180px]
+            h-[420px]
+            w-[420px]
+            -translate-x-1/2
+            rounded-full
+            bg-indigo-500/[0.06]
+            blur-[120px]
+            sm:h-[500px]
+            sm:w-[500px]
+            lg:h-[600px]
+            lg:w-[600px]
+            lg:blur-[140px]
+          "
         />
       </div>
 
-      {/* Fixed left panel */}
+      {/*   DESKTOP SIDEBAR */}
       <aside
-        className="fixed left-0 top-0 z-20 flex h-screen w-[260px]
-        flex-col border-r border-white/[0.08] bg-[#111111]/90
-        px-7 py-8 backdrop-blur-md"
+        className="
+          fixed
+          left-0
+          top-0
+          z-40
+          hidden
+          h-screen
+          w-56
+          flex-col
+          border-r
+          border-white/[0.08]
+          bg-[#111111]/90
+          px-6
+          py-8
+          backdrop-blur-md
+          lg:flex
+          lg:w-[260px]
+          lg:px-7
+        "
       >
         {/* Logo */}
         <div className="flex items-center gap-3">
@@ -60,17 +96,25 @@ export default function LandingPage() {
         </div>
 
         {/* Authentication */}
-        <div className="mt-12 space-y-3">
-
+        <div className="mt-10 space-y-3">
           {/* Google */}
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-3
-            rounded-[10px] border border-white/[0.10]
-            bg-white/[0.04] px-4 py-3 text-sm font-medium
-            text-white transition hover:bg-white/[0.08]
-            focus:outline-none focus:ring-2 focus:ring-white/20"
+            onClick={handleGoogleLogin}
+            className="
+              flex w-full items-center justify-center gap-3
+              cursor-pointer rounded-[10px]
+              border border-white/[0.10]
+              bg-white/[0.04]
+              px-2 py-3
+              text-sm font-medium text-white
+              transition hover:bg-white/[0.08]
+              focus:outline-none
+              focus:ring-2 focus:ring-white/20
+            "
           >
+            <FcGoogle className="h-5 w-5" />
+            
             Continue with Google
           </button>
 
@@ -78,10 +122,21 @@ export default function LandingPage() {
           <button
             type="button"
             onClick={() => navigate("/signin")}
-            className="w-full rounded-[10px] bg-white px-4 py-3
-            text-sm font-medium text-black transition
-            hover:bg-[#e8e8e8] focus:outline-none
-            focus:ring-2 focus:ring-white/20"
+            className="
+              w-full
+              rounded-[10px]
+              bg-white
+              px-4 py-3
+              cursor-pointer
+              text-sm
+              font-medium
+              text-black
+              transition
+              hover:bg-[#e8e8e8]
+              focus:outline-none
+              focus:ring-2
+              focus:ring-white/20
+            "
           >
             Sign in
           </button>
@@ -90,10 +145,22 @@ export default function LandingPage() {
           <button
             type="button"
             onClick={() => navigate("/signup")}
-            className="w-full rounded-[10px] border border-white/[0.08]
-            bg-transparent px-4 py-3 text-sm font-medium
-            text-gray-300 transition hover:border-white/[0.15]
-            hover:text-white"
+            className="
+              w-full
+              rounded-[10px]
+              border
+              border-white/[0.08]
+              bg-transparent
+              px-4
+              py-3
+              cursor-pointer
+              text-sm
+              font-medium
+              text-gray-300
+              transition
+              hover:border-white/[0.15]
+              hover:text-white
+            "
           >
             Create account
           </button>
@@ -103,28 +170,162 @@ export default function LandingPage() {
         <div className="mt-auto">
           <p className="text-xs leading-5 text-gray-600">
             AI-powered conversations,
+            <br />
             built for simplicity.
           </p>
         </div>
       </aside>
 
-      {/* Scrollable content */}
-      <section className="ml-[260px] min-h-screen">
+      {/*  MOBILE / TABLET HEADER  */}
+      <header
+        className="
+          sticky
+          top-0
+          z-30
+          flex
+          h-16
+          w-full
+          items-center
+          justify-between
+          border-b
+          border-white/[0.08]
+          bg-[#111111]/90
+          px-4
+          backdrop-blur-md
+          lg:hidden
+          sm:px-6
+        "
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-2.5">
+          <img
+            src="/chatAI-logo.png"
+            alt="AI Chat"
+            className="h-9 w-9 object-contain"
+          />
 
-        {/* Hero */}
+          <span className="text-sm font-medium text-white sm:text-base">
+            AI Chat App
+          </span>
+        </div>
+
+        {/* Header actions */}
+        <div className="flex items-center gap-2">
+          {/* Google */}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="
+              hidden
+              rounded-[9px]
+              border
+              border-white/[0.10]
+              bg-white/[0.04]
+              px-3
+              py-2
+              text-xs
+              font-medium
+              text-white
+              transition
+              hover:bg-white/[0.08]
+              sm:block
+              sm:px-4
+              sm:text-sm
+            "
+          >
+            Google
+          </button>
+
+          {/* Sign in */}
+          <button
+            type="button"
+            onClick={() => navigate("/signin")}
+            className="
+              rounded-[9px]
+              border
+              border-white/[0.10]
+              bg-white/[0.04]
+              px-3
+              py-2
+              text-xs
+              font-medium
+              text-white
+              transition
+              hover:bg-white/[0.08]
+              sm:px-4
+              sm:text-sm
+            "
+          >
+            Sign in
+          </button>
+
+          {/* Sign up */}
+          <button
+            type="button"
+            onClick={() => navigate("/signup")}
+            className="
+              hidden
+              rounded-[9px]
+              bg-white
+              px-3
+              py-2
+              text-xs
+              font-medium
+              text-black
+              transition
+              hover:bg-[#e8e8e8]
+              sm:block
+              sm:px-4
+              sm:text-sm
+            "
+          >
+            Sign up
+          </button>
+        </div>
+      </header>
+
+      {/*  MAIN CONTENT */}
+      <section
+        className="
+          min-h-screen
+          lg:ml-[260px]
+        "
+      >
+        {/*  HERO */}
         <div
-          className="flex min-h-screen items-center justify-center
-          px-8 py-20 sm:px-12 lg:px-20"
+          className="
+            flex
+            min-h-[calc(100vh-4rem)]
+            items-center
+            justify-center
+            px-5
+            py-16
+            sm:px-8
+            sm:py-20
+            md:min-h-screen
+            md:px-12
+            lg:px-16
+            lg:py-20
+            xl:px-20
+          "
         >
           <div className="w-full max-w-4xl">
-
-            <p className="mb-5 text-sm font-medium text-indigo-400">
+            <p className="mb-4 text-sm font-medium text-indigo-400 sm:mb-5">
               AI-powered conversations
             </p>
 
             <h1
-              className="max-w-4xl text-5xl font-medium
-              tracking-tight text-white sm:text-6xl lg:text-7xl"
+              className="
+                max-w-4xl
+                text-4xl
+                font-medium
+                leading-[1.08]
+                tracking-tight
+                text-white
+                sm:text-5xl
+                md:text-6xl
+                lg:text-7xl
+              "
             >
               A simpler way to
               <span className="text-gray-500">
@@ -133,74 +334,165 @@ export default function LandingPage() {
             </h1>
 
             <p
-              className="mt-7 max-w-2xl text-base leading-7
-              text-gray-400 sm:text-lg"
+              className="
+                mt-6
+                max-w-2xl
+                text-sm
+                leading-6
+                text-gray-400
+                sm:mt-7
+                sm:text-base
+                sm:leading-7
+                lg:text-lg
+              "
             >
               AI Chat App gives you a simple and focused environment
               for having conversations with artificial intelligence,
               while keeping your conversations connected and accessible.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row">
+              {/* Get started */}
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
-                className="rounded-[10px] bg-white px-5 py-3
-                text-sm font-medium text-black transition
-                hover:bg-[#e8e8e8]"
+                className="
+                  w-full
+                  rounded-[10px]
+                  bg-white
+                  px-5
+                  py-3
+                  text-sm 
+                  cursor-pointer
+                  font-medium
+                  text-black
+                  transition
+                  hover:bg-[#e8e8e8]
+                  sm:w-auto
+                "
               >
                 Get started
               </button>
 
+              {/* Sign in */}
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="rounded-[10px] border border-white/[0.10]
-                bg-white/[0.03] px-5 py-3 text-sm font-medium
-                text-white transition hover:bg-white/[0.07]"
+                className="
+                  w-full
+                  rounded-[10px]
+                  border
+                  border-white/[0.10]
+                  bg-white/[0.03]
+                  px-5
+                  py-3
+                  cursor-pointer
+                  text-sm
+                  font-medium
+                  text-white
+                  transition
+                  hover:bg-white/[0.07]
+                  sm:w-auto
+                "
               >
                 Sign in
               </button>
             </div>
-
           </div>
         </div>
 
-        {/* About */}
-        <section className="border-t border-white/[0.06] px-8 py-24 sm:px-12 lg:px-20">
+        {/* =================================================
+            ABOUT
+        ================================================= */}
+        <section
+          className="
+            border-t
+            border-white/[0.06]
+            px-5
+            py-16
+            sm:px-8
+            sm:py-20
+            md:px-12
+            lg:px-16
+            lg:py-24
+            xl:px-20
+          "
+        >
           <div className="mx-auto max-w-4xl">
-
             <p className="text-sm font-medium text-indigo-400">
               About the application
             </p>
 
-            <h2 className="mt-4 text-3xl font-medium tracking-tight text-white sm:text-4xl">
+            <h2
+              className="
+                mt-3
+                text-2xl
+                font-medium
+                tracking-tight
+                text-white
+                sm:mt-4
+                sm:text-3xl
+                md:text-4xl
+              "
+            >
               Built around the conversation.
             </h2>
 
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
+            <p
+              className="
+                mt-5
+                max-w-2xl
+                text-sm
+                leading-6
+                text-gray-400
+                sm:mt-6
+                sm:text-base
+                sm:leading-7
+              "
+            >
               AI Chat App is designed to make interacting with AI
               straightforward. Start a conversation, send your message,
               and receive responses without unnecessary complexity.
             </p>
-
           </div>
         </section>
 
-        {/* Features */}
-        <section className="border-t border-white/[0.06] px-8 py-24 sm:px-12 lg:px-20">
+        {/* FEATURES */}
+        <section
+          className="
+            border-t
+            border-white/[0.06]
+            px-5
+            py-16
+            sm:px-8
+            sm:py-20
+            md:px-12
+            lg:px-16
+            lg:py-24
+            xl:px-20
+          "
+        >
           <div className="mx-auto max-w-4xl">
-
             <p className="text-sm font-medium text-indigo-400">
               Features
             </p>
 
-            <h2 className="mt-4 text-3xl font-medium tracking-tight text-white sm:text-4xl">
+            <h2
+              className="
+                mt-3
+                text-2xl
+                font-medium
+                tracking-tight
+                text-white
+                sm:mt-4
+                sm:text-3xl
+                md:text-4xl
+              "
+            >
               Everything you need to chat with AI.
             </h2>
 
-            <div className="mt-12 grid gap-4 sm:grid-cols-2">
-
+            <div className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-2">
               {[
                 {
                   title: "AI conversations",
@@ -225,9 +517,17 @@ export default function LandingPage() {
               ].map((feature) => (
                 <div
                   key={feature.title}
-                  className="rounded-[18px] border border-white/[0.08]
-                  bg-white/[0.02] p-6 transition
-                  hover:border-white/[0.12] hover:bg-white/[0.03]"
+                  className="
+                    rounded-[18px]
+                    border
+                    border-white/[0.08]
+                    bg-white/[0.02]
+                    p-5
+                    transition
+                    hover:border-white/[0.12]
+                    hover:bg-white/[0.03]
+                    sm:p-6
+                  "
                 >
                   <h3 className="text-base font-medium text-white">
                     {feature.title}
@@ -238,42 +538,87 @@ export default function LandingPage() {
                   </p>
                 </div>
               ))}
-
             </div>
           </div>
         </section>
 
-        {/* How it works */}
-        <section className="border-t border-white/[0.06] px-8 py-24 sm:px-12 lg:px-20">
+        {/* HOW IT WORKS */}
+        <section
+          className="
+            border-t
+            border-white/[0.06]
+            px-5
+            py-16
+            sm:px-8
+            sm:py-20
+            md:px-12
+            lg:px-16
+            lg:py-24
+            xl:px-20
+          "
+        >
           <div className="mx-auto max-w-4xl">
-
             <p className="text-sm font-medium text-indigo-400">
               How it works
             </p>
 
-            <h2 className="mt-4 text-3xl font-medium tracking-tight text-white sm:text-4xl">
+            <h2
+              className="
+                mt-3
+                text-2xl
+                font-medium
+                tracking-tight
+                text-white
+                sm:mt-4
+                sm:text-3xl
+                md:text-4xl
+              "
+            >
               From question to answer.
             </h2>
 
-            <div className="mt-12 space-y-4">
-
+            <div className="mt-8 space-y-3 sm:mt-12 sm:space-y-4">
               {[
-                ["01", "Create an account", "Create your account and verify your email."],
-                ["02", "Start a conversation", "Open the chat and send your first message."],
-                ["03", "AI processes your request", "Your message is sent to the AI service."],
-                ["04", "Receive the response", "The AI response is streamed back into your conversation."],
+                [
+                  "01",
+                  "Create an account",
+                  "Create your account and verify your email.",
+                ],
+                [
+                  "02",
+                  "Start a conversation",
+                  "Open the chat and send your first message.",
+                ],
+                [
+                  "03",
+                  "AI processes your request",
+                  "Your message is sent to the AI service.",
+                ],
+                [
+                  "04",
+                  "Receive the response",
+                  "The AI response is streamed back into your conversation.",
+                ],
               ].map(([number, title, description]) => (
                 <div
                   key={number}
-                  className="flex gap-5 rounded-[18px]
-                  border border-white/[0.08] bg-white/[0.02]
-                  p-5"
+                  className="
+                    flex
+                    gap-4
+                    rounded-[18px]
+                    border
+                    border-white/[0.08]
+                    bg-white/[0.02]
+                    p-4
+                    sm:gap-5
+                    sm:p-5
+                  "
                 >
-                  <span className="text-sm font-medium text-gray-600">
+                  <span className="shrink-0 text-sm font-medium text-gray-600">
                     {number}
                   </span>
 
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="text-sm font-medium text-white">
                       {title}
                     </h3>
@@ -284,27 +629,47 @@ export default function LandingPage() {
                   </div>
                 </div>
               ))}
-
             </div>
           </div>
         </section>
 
-        {/* Technology */}
+        {/* TECHNOLOGY */}
         <section
           ref={technologyRef}
-          className="border-t border-white/[0.06] px-8 py-24 sm:px-12 lg:px-20"
+          className="
+            border-t
+            border-white/[0.06]
+            px-5
+            py-16
+            sm:px-8
+            sm:py-20
+            md:px-12
+            lg:px-16
+            lg:py-24
+            xl:px-20
+          "
         >
           <div className="mx-auto max-w-4xl">
-
             <p className="text-sm font-medium text-indigo-400">
               Technology
             </p>
 
-            <h2 className="mt-4 text-3xl font-medium tracking-tight text-white sm:text-4xl">
+            <h2
+              className="
+                mt-3
+                text-2xl
+                font-medium
+                tracking-tight
+                text-white
+                sm:mt-4
+                sm:text-3xl
+                md:text-4xl
+              "
+            >
               Built with modern web technologies.
             </h2>
 
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-2.5 sm:mt-10 sm:gap-3">
               {[
                 "React",
                 "TypeScript",
@@ -323,10 +688,16 @@ export default function LandingPage() {
                   }}
                   className={`
                     rounded-full
-                    border border-white/[0.08]
+                    border
+                    border-white/[0.08]
                     bg-white/[0.02]
-                    px-4 py-2
-                    text-sm text-gray-400
+                    px-3
+                    py-1.5
+                    text-xs
+                    text-gray-400
+                    sm:px-4
+                    sm:py-2
+                    sm:text-sm
                     ${
                       technologyVisible
                         ? "animate-slide-in"
@@ -338,13 +709,37 @@ export default function LandingPage() {
                 </span>
               ))}
             </div>
-          
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="border-t border-white/[0.06] px-8 py-10 sm:px-12 lg:px-20">
-          <div className="mx-auto flex max-w-4xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        {/* FOOTER */}
+        <footer
+          className="
+            border-t
+            border-white/[0.06]
+            px-5
+            py-8
+            sm:px-8
+            sm:py-10
+            md:px-12
+            lg:px-16
+            xl:px-20
+          "
+        >
+          <div
+            className="
+              mx-auto
+              flex
+              max-w-4xl
+              flex-col
+              gap-2
+              text-center
+              sm:flex-row
+              sm:items-center
+              sm:justify-between
+              sm:text-left
+            "
+          >
             <p className="text-xs text-gray-600">
               AI Chat App
             </p>
@@ -354,8 +749,8 @@ export default function LandingPage() {
             </p>
           </div>
         </footer>
-
       </section>
     </main>
   );
 }
+

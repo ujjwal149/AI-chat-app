@@ -7,7 +7,11 @@ import cookieParser from "cookie-parser";
 import chatRoutes from "./routes/chatRoutes.ts";
 import signupRoutes from "./routes/authRoutes.ts";
 
+import passport from "./config/passport";
+
 const app = express();
+
+app.use(passport.initialize());
 
 //-----Cookie parser middleware---//
 app.use(cookieParser());
