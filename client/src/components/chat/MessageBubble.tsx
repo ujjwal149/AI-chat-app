@@ -9,7 +9,7 @@ export default function MessageBubble({
 }: MessageBubbleProps) {
   if (message.role === "assistant") {
     return (
-      <div className="w-full px-4 py-3 rounded-lg bg-[#242424] text-gray-100 whitespace-pre-wrap break-words">
+      <div className="w-full px-4 py-3 rounded-lg bg-transparent text-gray-100 whitespace-pre-wrap break-words">
         {message.content}
       </div>
     );

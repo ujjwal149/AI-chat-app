@@ -22,7 +22,7 @@ export default function Chat() {
     <main className="h-dvh overflow-hidden bg-[#2a2a2a] p-1.5 text-white sm:p-2">
       <div className="flex h-full min-h-0 gap-1.5 sm:gap-2">
 
-        {/* Sidebar */}
+        {/* Sidebar */} 
         <Sidebar
           onNewChat={() => setMessages([])}
           isOpen={isSidebarOpen}

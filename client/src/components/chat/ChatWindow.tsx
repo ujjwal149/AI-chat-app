@@ -26,7 +26,7 @@ export default function ChatWindow({
     <div className="flex-1 bg-[#181818] rounded-xl border border-[#25262B] flex flex-col overflow-hidden">
       
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto scroll-smooth flex justify-center mb-2">
+      <div className="flex-1 overflow-y-auto scroll-smooth flex justify-center mb-2 ">
         <div className="w-full max-w-2xl px-4 py-6 space-y-4">
           {messages.map((msg, index) => (
             <MessageBubble
