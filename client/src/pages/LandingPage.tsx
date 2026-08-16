@@ -119,7 +119,7 @@ export default function LandingPage() {
           </button>
 
           {/* Sign in */}
-          <button
+          {/* <button
             type="button"
             onClick={() => navigate("/signin")}
             className="
@@ -139,10 +139,10 @@ export default function LandingPage() {
             "
           >
             Sign in
-          </button>
+          </button> */}
 
           {/* Sign up */}
-          <button
+          {/* <button
             type="button"
             onClick={() => navigate("/signup")}
             className="
@@ -163,8 +163,9 @@ export default function LandingPage() {
             "
           >
             Create account
-          </button>
-        </div>
+          </button> */}
+
+        </div> 
 
         {/* Bottom text */}
         <div className="mt-auto">
@@ -237,7 +238,8 @@ export default function LandingPage() {
           </button>
 
           {/* Sign in */}
-          <button
+
+          {/* <button
             type="button"
             onClick={() => navigate("/signin")}
             className="
@@ -257,10 +259,10 @@ export default function LandingPage() {
             "
           >
             Sign in
-          </button>
+          </button> */}
 
           {/* Sign up */}
-          <button
+          {/* <button
             type="button"
             onClick={() => navigate("/signup")}
             className="
@@ -280,7 +282,7 @@ export default function LandingPage() {
             "
           >
             Sign up
-          </button>
+          </button> */}
         </div>
       </header>
 
@@ -353,7 +355,7 @@ export default function LandingPage() {
 
             <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               {/* Get started */}
-              <button
+              {/* <button
                 type="button"
                 onClick={() => navigate("/signup")}
                 className="
@@ -372,10 +374,45 @@ export default function LandingPage() {
                 "
               >
                 Get started
-              </button>
+              </button> */}
+
+              {/*Continue with Google */}
+              {/* Google */}
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="
+                flex
+                w-full
+                max-w-sm
+                items-center
+                justify-center
+                gap-3
+                cursor-pointer
+                rounded-[10px]
+                border
+                border-white/[0.10]
+                bg-white
+                px-4
+                py-3
+                text-sm
+                font-medium
+                text-black
+                transition
+                hover:bg-white/[0.6]
+                focus:outline-none
+                focus:ring-2
+                focus:ring-white/20
+              "
+              >
+              <FcGoogle className="h-5 w-5 shrink-0" />
+              <span className="truncate">
+                Continue with Google
+              </span>
+            </button>
 
               {/* Sign in */}
-              <button
+              {/* <button
                 type="button"
                 onClick={() => navigate("/signin")}
                 className="
@@ -396,7 +433,7 @@ export default function LandingPage() {
                 "
               >
                 Sign in
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

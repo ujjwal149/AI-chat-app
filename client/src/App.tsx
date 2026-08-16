@@ -3,12 +3,12 @@ import { Routes, Route} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import LoadingScreen from "./components/ui/LoadingScreen";
 
-import SigninPage from "./pages/SigninPage";
-import SignupPage from "./pages/SignupPage";
-import VerifyEmailPage from "./pages/VerifyEmailPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import VerifyResetOtpPage from "./pages/VerifyResetOtpPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+// import SigninPage from "./pages/SigninPage";
+// import SignupPage from "./pages/SignupPage";
+// import VerifyEmailPage from "./pages/VerifyEmailPage";
+// import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+// import VerifyResetOtpPage from "./pages/VerifyResetOtpPage";
+// import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import Chat from "./pages/Chat";
 
@@ -33,40 +33,40 @@ function App() {
       />
 
       {/* Signin page route */}
-      <Route
+      {/* <Route
         path="/signin"
         element={<SigninPage />}
-      />
+      /> */}
 
       {/* Signup page route */}
-      <Route
+      {/* <Route
         path="/signup"
         element={<SignupPage />}
-      />
+      /> */}
 
       {/* Verify Email page route */}
-      <Route
+      {/* <Route
         path="/verify-email"
         element={<VerifyEmailPage />}
-      />
+      /> */}
 
       {/* Forgot passowrd*/}
-      <Route
+      {/* <Route
         path="/forgot-password"
         element={<ForgotPasswordPage />}
-      />
+      /> */}
 
       {/* Reset reset OTP */}
-      <Route
+      {/* <Route
         path="/verify-reset-otp"
         element={<VerifyResetOtpPage />}
-      />
+      /> */}
 
       {/* Reset password */}
-      <Route
+      {/* <Route
         path="/reset-password"
         element={<ResetPasswordPage />}
-      />
+      /> */}
 
       {/* Protected chat page */}
       <Route
