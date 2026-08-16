@@ -1,12 +1,10 @@
 
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { FcGoogle } from "react-icons/fc";
 
-export default function LandingPage() {
-  const navigate = useNavigate();
 
+export default function LandingPage() {
   const [technologyVisible, setTechnologyVisible] = useState(false);
   const technologyRef = useRef<HTMLElement | null>(null);
 
